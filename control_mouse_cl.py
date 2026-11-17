@@ -8,7 +8,7 @@ import time
 from pynput.keyboard import Controller, Key
 
 LOOPBACK = '127.0.0.1'
-HOST = LOOPBACK
+HOST = '10.0.0.25'
 PORT = 1337
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
