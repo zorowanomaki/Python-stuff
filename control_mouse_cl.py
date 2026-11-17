@@ -15,6 +15,32 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
 
 keyboard = Controller()
+KEY_MAP = {
+    'enter': Key.enter,
+    'space': Key.space,
+    'backspace': Key.backspace,
+    'tab': Key.tab,
+    'shift': Key.shift,
+    'shift_l': Key.shift_l,
+    'shift_r': Key.shift_r,
+    'ctrl': Key.ctrl,
+    'ctrl_l': Key.ctrl_l,
+    'ctrl_r': Key.ctrl_r,
+    'alt': Key.alt,
+    'alt_l': Key.alt_l,
+    'alt_r': Key.alt_r,
+    'esc': Key.esc,
+    'up': Key.up,
+    'down': Key.down,
+    'left': Key.left,
+    'right': Key.right,
+    'delete': Key.delete,
+    'home': Key.home,
+    'end': Key.end,
+    'page_up': Key.page_up,
+    'page_down': Key.page_down,
+    'caps_lock': Key.caps_lock
+}
 buffer = ''
 
 pyautogui.PAUSE = 0
@@ -39,6 +65,7 @@ while True:
 
         if message.startswith('KEY:'):
             key = message[4:]
+            key = KEY_MAP.get(key, key)
             keyboard.press(key)
             keyboard.release(key)
 

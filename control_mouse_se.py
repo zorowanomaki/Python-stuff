@@ -11,39 +11,47 @@ from pynput.keyboard import Key
 
 
 #Server setup
-HOST = '127.0.0.1'
+HOST = '10.0.0.25'
 PORT = 1337
     
-
-
-
 print(f"Server listening on {HOST}:{PORT}")
 
 def keyboard_thread(client_sock):
     def send_keyboard_clicks(key):
-        client_sock.sendall(f"KEY:{key.char}\n".encode())
+        try:
+            char = key.char
+        except AttributeError:
+            char = key.name
+        client_sock.sendall(f"KEY:{char}\n".encode())
         print("sent: ", key)
-    with KeyboardListener(on_press=send_keyboard_clicks()) as listener:
+    with KeyboardListener(on_press=send_keyboard_clicks) as listener:
         listener.join()
     
 def mouse_thread(client_sock):
 
     def on_move(x, y):
         message = f"MOUSE:move,{x},{y}\n"
-        client_sock.sendall(message.encode())
+        try:
+            client_sock.sendall(message.encode())
+        except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError, OSError):
+            return False
         print("Mouse moved to ({0}, {1})".format(x, y))
     
     def on_click(x, y, button, pressed):
         if pressed:
             message = f"MOUSE:click,{x},{y}\n"
-            client_sock.sendall(message.encode())
-                    
+            try:
+                client_sock.sendall(message.encode())
+            except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError, OSError):
+                return False            
             print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
     
     def on_scroll(x, y, dx, dy):
         message = f"MOUSE:scroll,{x},{y}\n"
-        client_sock.sendall(message.encode())
-                
+        try:
+            client_sock.sendall(message.encode())
+        except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError, OSError):
+            return False            
         print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     
     with MouseListener(on_click=on_click, on_scroll=on_scroll, on_move=on_move) as listener:
