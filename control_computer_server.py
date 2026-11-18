@@ -10,6 +10,8 @@ import cv2
 import numpy as np
 import mss
 
+pyautogui.PAUSE = 0
+
 HOST = '10.0.0.25'
 PORT = 1337
 
@@ -139,11 +141,18 @@ def screen_thread(client_sock):
                     screenshot,
                     cv2.COLOR_BGRA2BGR
                 )
-
+                height, width = frame.shape[:2]
+                if width > 1280:
+                    new_height = int(height * 1280 / width)
+                    frame = cv2.resize(
+                        frame,
+                        (1280, new_height),
+                        interpolation=cv2.INTER_AREA
+                    )
                 success, encoded = cv2.imencode(
                     '.jpg',
                     frame,
-                    [cv2.IMWRITE_JPEG_QUALITY, 60]
+                    [cv2.IMWRITE_JPEG_QUALITY, 45]
                 )
 
                 if success:

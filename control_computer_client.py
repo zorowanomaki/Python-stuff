@@ -8,7 +8,7 @@ import pyautogui
 import cv2
 import numpy as np
 
-from pynput.keyboard import Listener as KeyboardListener
+from pynput.keyboard import Listener as KeyboardListener, Key
 from pynput.mouse import Listener as MouseListener
 
 HOST = '10.0.0.25'  # Replace with server's IP
@@ -72,6 +72,18 @@ def receive_packet():
 # SEND KEYBOARD
 
 def on_press(key):
+
+    # ESC closes the connection
+    if key == Key.esc:
+        mouse_listener.stop()
+
+        try:
+            client_socket.shutdown(socket.SHUT_RDWR)
+        except OSError:
+            pass
+
+        return False
+
     try:
         key_data = key.char
     except AttributeError:
