@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 #Server setup
-HOST = '127.0.0.1'
+HOST = '10.0.0.25'
 PORT = 1337
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
