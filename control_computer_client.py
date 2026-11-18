@@ -11,7 +11,7 @@ import numpy as np
 from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
-HOST = '127.0.0.1'  # Replace with server's IP
+HOST = '10.0.0.25'  # Replace with server's IP
 PORT = 1337
 
 pyautogui.PAUSE = 0

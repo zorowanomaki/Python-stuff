@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 import mss
 
-HOST = '0.0.0.0'
+HOST = '10.0.0.25'
 PORT = 1337
 
 # PACKET FUNCTIONS
