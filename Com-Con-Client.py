@@ -11,7 +11,7 @@ HOST = '10.0.0.25'
 PORT = 1337
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect(HOST, PORT)
+client_socket.connect((HOST, PORT))
 
 while True:
     screenshot = pyautogui.screenshot()
